@@ -251,7 +251,7 @@ if __name__ == "__main__":
     sleep(2)
 
     # --- Zapnuti
-    print('\nON    -> {"method": "setY2", "params": 1, "timeout": 10000}')
+    print('\nON    -> {"method": "state", "params": "Y2 ON", "timeout": 10000}')
     print("  response:", eStudna_OutputOn(tb, deviceId, "Y2"))
     sleep(2)
 

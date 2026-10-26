@@ -152,7 +152,7 @@ Historie se vrací jako seznam dvojic `(hodnota, ts)`.
 
 | Akce | Funkce | `method` | `params` |
 |---|---|---|---|
-| Trvale zapnout | `eStudna_OutputOn` | `setY2` | `1` |
+| Trvale zapnout | `eStudna_OutputOn` | `state` | `"Y2 ON"` |
 | Vypnout | `eStudna_OutputOff` | `state` | `"Y2 OFF"` |
 | Puls (zapnout na N s, pak vypnout) | `eStudna_OutputPulse` | `state` | `"Y2 PULSE 31"` |
 | Reset (vypnout na N s, pak zapnout) | `eStudna_OutputReset` | `state` | `"Y2 RESET 35"` |
