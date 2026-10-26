@@ -137,6 +137,22 @@ function eStudna_SetOutput($tb, $deviceId, $output, $state)
     return $tb->setDeviceRpc($deviceId, $method, $state);
 }
 
+/**
+ * Zapnuti vystupu. RPC: {"method": "setDout1", "params": true}
+ */
+function eStudna_OutputOn($tb, $deviceId, $output)
+{
+    return eStudna_SetOutput($tb, $deviceId, $output, true);
+}
+
+/**
+ * Vypnuti vystupu. RPC: {"method": "setDout1", "params": false}
+ */
+function eStudna_OutputOff($tb, $deviceId, $output)
+{
+    return eStudna_SetOutput($tb, $deviceId, $output, false);
+}
+
 
 // ----------------------------------------------------------------------------
 // --- Main code
@@ -159,12 +175,12 @@ try
 
     // --- Zapnuti
     echo('<pre><b>ON</b>  -> {"method": "setDout1", "params": true, "timeout": 10000}</pre>');
-    echo('<pre>  response: ' . eStudna_SetOutput($tb, $deviceId, 'OUT1', true) . '</pre>');
+    echo('<pre>  response: ' . eStudna_OutputOn($tb, $deviceId, 'OUT1') . '</pre>');
     sleep(1);
 
     // --- Vypnuti
     echo('<pre><b>OFF</b> -> {"method": "setDout1", "params": false, "timeout": 10000}</pre>');
-    echo('<pre>  response: ' . eStudna_SetOutput($tb, $deviceId, 'OUT1', false) . '</pre>');
+    echo('<pre>  response: ' . eStudna_OutputOff($tb, $deviceId, 'OUT1') . '</pre>');
 } catch (Exception $e) {
     echo('<pre>[ EXCEPTION] - ' . $e->getMessage() . '</pre>');
 }

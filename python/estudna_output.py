@@ -1,6 +1,6 @@
 import requests
 import json
-from time import sleep, time
+from time import sleep
 
 # ----------------------------------------------------------------------------
 # --- Configuration
@@ -124,13 +124,7 @@ class ThingsBoard:
 
 def eStudna_SetOutput(tb: ThingsBoard, deviceId: str, output: str, state: bool):
     """
-    Nastaveni vystupu.
-
-    Parametry:
-      tb       - prihlaseny objekt ThingsBoard (tb.login uz byl zavolan)
-      deviceId - ID zarizeni (z tb.getDevicesByName)
-      output   - "OUT1" nebo "OUT2"
-      state    - True = zapnuto, False = vypnuto
+    Nastaveni vystupu (obecna funkce, pouzivaji ji eStudna_OutputOn/Off).
 
     RPC odeslane na POST /api/rpc/twoway/{deviceId}:
     {
@@ -141,6 +135,44 @@ def eStudna_SetOutput(tb: ThingsBoard, deviceId: str, output: str, state: bool):
     """
     method = "setDout1" if output == "OUT1" else "setDout2"
     return tb.setDeviceRpc(deviceId, method, state)
+
+
+def eStudna_OutputOn(tb: ThingsBoard, deviceId: str, output: str):
+    """
+    Zapnuti vystupu.
+
+    Parametry:
+      tb       - prihlaseny objekt ThingsBoard (tb.login uz byl zavolan)
+      deviceId - ID zarizeni (z tb.getDevicesByName)
+      output   - nazev vystupu, "OUT1" nebo "OUT2"
+
+    RPC odeslane na POST /api/rpc/twoway/{deviceId}:
+    {
+        "method": "setDout1",
+        "params": true,
+        "timeout": 10000
+    }
+    """
+    return eStudna_SetOutput(tb, deviceId, output, True)
+
+
+def eStudna_OutputOff(tb: ThingsBoard, deviceId: str, output: str):
+    """
+    Vypnuti vystupu.
+
+    Parametry:
+      tb       - prihlaseny objekt ThingsBoard (tb.login uz byl zavolan)
+      deviceId - ID zarizeni (z tb.getDevicesByName)
+      output   - nazev vystupu, "OUT1" nebo "OUT2"
+
+    RPC odeslane na POST /api/rpc/twoway/{deviceId}:
+    {
+        "method": "setDout1",
+        "params": false,
+        "timeout": 10000
+    }
+    """
+    return eStudna_SetOutput(tb, deviceId, output, False)
 
 
 if __name__ == "__main__":
@@ -159,11 +191,11 @@ if __name__ == "__main__":
 
     # --- Zapnuti
     print('\nON    -> {"method": "setDout1", "params": true, "timeout": 10000}')
-    print("  response:", eStudna_SetOutput(tb, deviceId, "OUT1", True))
+    print("  response:", eStudna_OutputOn(tb, deviceId, "OUT1"))
     sleep(1)
 
     # --- Vypnuti
     print('\nOFF   -> {"method": "setDout1", "params": false, "timeout": 10000}')
-    print("  response:", eStudna_SetOutput(tb, deviceId, "OUT1", False))
+    print("  response:", eStudna_OutputOff(tb, deviceId, "OUT1"))
 
 # End of file
